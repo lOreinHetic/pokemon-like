@@ -4,7 +4,7 @@ document.getElementById('team-form').addEventListener('submit', function(event) 
     const hp = parseInt(document.getElementById('pokemon-hp').value, 10);
     const attack = parseInt(document.getElementById('pokemon-attack').value, 10);
 
-    const playerPokemon = { name, hp, attack };
+    const playerPokemon = new Pokemon(name, hp, attack);
     localStorage.setItem('playerPokemon', JSON.stringify(playerPokemon));
     document.getElementById('start-battle').style.display = 'block';
 });
