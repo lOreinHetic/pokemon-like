@@ -28,6 +28,8 @@ function updateStats() {
 }); */
 
 function battleRound(playerMove) {
+    console.log("Battle round started");
+
     if (!playerPokemon || !enemyPokemon) {
         console.log('Les deux Pokémon doivent être définis');
         return;
@@ -54,3 +56,5 @@ function battleRound(playerMove) {
         document.body.innerHTML = '<h1>L\'ennemie a été vaincu !</h1>';
     }
 }
+
+window.battleRound = battleRound;
