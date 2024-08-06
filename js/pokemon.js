@@ -1,3 +1,5 @@
+//console.log('pokemon.js loaded');
+
 export class Pokemon {
     constructor(name, hp, attack) {
         this.name = name;

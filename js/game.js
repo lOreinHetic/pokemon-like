@@ -1,4 +1,5 @@
-import { Pokemon } from "./pokemon";
+import { Pokemon } from './pokemon.js';
+//console.log('Pokemon class imported:', Pokemon);
 
 let storedPlayerPokemon = JSON.parse(localStorage.getItem('playerPokemon'));
 let playerPokemon = new Pokemon(storedPlayerPokemon.name, storedPlayerPokemon.hp, storedPlayerPokemon.attack);
