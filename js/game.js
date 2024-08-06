@@ -15,10 +15,21 @@ class Pokemon {
     }
 }
 
-let playerPokemon;
+let playerPokemon = JSON.parse(localStorage.getItem('playerPokemon'));
 let enemyPokemon = new Pokemon('Salamèche', 100, 15);
 
-document.getElementById('team-form').addEventListener('submit', function(event) {
+document.addEventListener('DOMContentLoaded', (event) => {
+    if (playerPokemon) {
+        updateStats();
+    }
+});
+
+function updateStats() {
+    document.getElementById('player-stats').textContent = `Joueur: ${playerPokemon.name} | HP: ${playerPokemon.hp} | Attaque: ${playerPokemon.attack}`;
+    document.getElementById('enemy-stats').textContent = `Ennemie: ${enemyPokemon.name} | HP: ${enemyPokemon.hp} | Attaque: ${enemyPokemon.attack}`;
+}
+
+/* document.getElementById('team-form').addEventListener('submit', function(event) {
     event.preventDefault();
     const name = document.getElementById('pokemon-name').value;
     const hp = parseInt(document.getElementById('pokemon-hp').value, 10);
@@ -26,10 +37,10 @@ document.getElementById('team-form').addEventListener('submit', function(event) 
 
     playerPokemon = new Pokemon(name, hp, attack);
     console.log('Nouveau Pokemon créé:', playerPokemon);
-});
+}); */
 
 function battleRound(playerMove) {
-    if (!playerPokemo || !enemyPokemon) {
+    if (!playerPokemon || !enemyPokemon) {
         console.log('Les deux Pokémon doivent être définis');
         return;
     }
@@ -46,6 +57,8 @@ function battleRound(playerMove) {
 
     console.log(`Joueur HP: ${playerPokemon.hp}`);
     console.log(`Ennemie HP: ${enemyPokemon.hp}`);
+
+    updateStats();
 
     if (!playerPokemon.isAlive()) {
         document.body.innerHTML = '<h1>Le joueur a été vaincu !</h1>';
