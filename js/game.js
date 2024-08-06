@@ -15,7 +15,9 @@ class Pokemon {
     }
 }
 
-let playerPokemon = JSON.parse(localStorage.getItem('playerPokemon'));
+let storedPlayerPokemon = JSON.parse(localStorage.getItem('playerPokemon'));
+let playerPokemon = new Pokemon(storedPlayerPokemon.name, storedPlayerPokemon.hp, storedPlayerPokemon.attack);
+
 let enemyPokemon = new Pokemon('Salamèche', 100, 15);
 
 document.addEventListener('DOMContentLoaded', (event) => {
