@@ -3,26 +3,70 @@ body,label {
     text-align: center;
     background-color: #f0f0f0;
 }
+
 h1 {
     color: #333;
 }
+
 a {
     text-decoration: none;
     color: #007BFF;
 }
+
 button {
     padding: 10px 20px;
     margin: 10px;
     font-size: 16px;
     cursor: pointer;
 }
+
 form {
     margin: 20px 0;
 }
+
 h2 {
     color: #007BFF;
 }
+
 #start-battle {
     display: none;
 }
 
+.side-menu {
+    height: 100%; 
+    width: 0; 
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: #111;
+    overflow-x: hidden; 
+    padding-top: 60px; 
+    transition: 0.5s;
+}
+
+.side-menu a {
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 25px;
+    color: #818181;
+    display: block;
+    transition: 0.3s;
+}
+
+.side-menu a:hover {
+    color: #f1f1f1;
+}
+
+.side-menu .closebtn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
+}
+
+#open-menu-btn {
+    font-size: 20px;
+    cursor: pointer;
+}
