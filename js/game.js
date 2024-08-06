@@ -1,19 +1,4 @@
-class Pokemon {
-    constructor(name, hp, attack) {
-        this.name = name;
-        this.hp = hp;
-        this.attack = attack;
-    }
-
-    takeDamage(damage) {
-        this.hp -= damage;
-        if (this.hp < 0) this.hp = 0;
-    }
-
-    isAlive() {
-        return this.hp > 0;
-    }
-}
+import { Pokemon } from "./pokemon";
 
 let storedPlayerPokemon = JSON.parse(localStorage.getItem('playerPokemon'));
 let playerPokemon = new Pokemon(storedPlayerPokemon.name, storedPlayerPokemon.hp, storedPlayerPokemon.attack);

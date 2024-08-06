@@ -1,3 +1,5 @@
+import { Pokemon } from "./pokemon";
+
 document.getElementById('team-form').addEventListener('submit', function(event) {
     event.preventDefault();
     const name = document.getElementById('pokemon-name').value;
