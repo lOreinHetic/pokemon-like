@@ -32,14 +32,13 @@ h2 {
     display: none;
 }
 
-/* Styles pour le menu latéral droit */
 .side-menu {
     height: 100%;
     width: 0;
     position: fixed;
-    z-index: 3; /* Au-dessus du contenu */
+    z-index: 3;
     top: 0;
-    right: 0; /* Positionné à droite */
+    right: 0;
     background-color: #111;
     overflow-x: hidden;
     padding-top: 60px;
@@ -80,7 +79,7 @@ h2 {
     position: fixed;
     top: 20px;
     right: 20px;
-    z-index: 2; /* Assurez-vous que le bouton est au-dessus du contenu */
+    z-index: 2;
     background: none;
     border: none;
     outline: none;
@@ -88,5 +87,5 @@ h2 {
 }
 
 #open-menu-btn.open {
-    right: 270px; /* Ajustez cette valeur en fonction de la largeur du menu */
+    right: 270px;
 }
