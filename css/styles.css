@@ -75,10 +75,18 @@ h2 {
 }
 
 #open-menu-btn {
-    font-size: 20px;
+    font-size: 30px;
     cursor: pointer;
     position: fixed;
     top: 20px;
     right: 20px;
     z-index: 2; /* Assurez-vous que le bouton est au-dessus du contenu */
+    background: none;
+    border: none;
+    outline: none;
+    color: #111;
+}
+
+#open-menu-btn.open {
+    right: 270px; /* Ajustez cette valeur en fonction de la largeur du menu */
 }

@@ -1,9 +1,23 @@
 document.getElementById('open-menu-btn').addEventListener('click', function() {
-    document.getElementById('side-menu').style.width = '250px';
+    var menu = document.getElementById('side-menu');
+    var button = document.getElementById('open-menu-btn');
+    if (menu.style.width === '250px') {
+        menu.style.width = '0';
+        button.innerHTML = '&#9776;'; // Hamburger icon
+        button.classList.remove('open');
+    } else {
+        menu.style.width = '250px';
+        button.innerHTML = '&times;'; // Cross icon
+        button.classList.add('open');
+    }
 });
 
 document.getElementById('close-menu-btn').addEventListener('click', function() {
-    document.getElementById('side-menu').style.width = '0';
+    var menu = document.getElementById('side-menu');
+    var button = document.getElementById('open-menu-btn');
+    menu.style.width = '0';
+    button.innerHTML = '☰ Ouvrir le menu';
+    button.classList.remove('open');
 });
 
 function goToHome() {
