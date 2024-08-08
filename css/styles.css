@@ -32,6 +32,7 @@ h2 {
     display: none;
 }
 
+/* Supprimez cette partie redondante
 .side-menu {
     height: 100%; 
     width: 0; 
@@ -43,6 +44,21 @@ h2 {
     overflow-x: hidden; 
     padding-top: 60px; 
     transition: 0.5s;
+}
+*/
+
+/* Styles pour le menu latéral droit */
+.side-menu {
+    height: 100%; /* Full-height */
+    width: 0; /* 0 width - change this with JavaScript */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Stay on top */
+    top: 0;
+    right: 0; /* Positionné à droite */
+    background-color: #111; /* Black */
+    overflow-x: hidden; /* Disable horizontal scroll */
+    padding-top: 60px; /* Place content 60px from the top */
+    transition: 0.5s; /* 0.5 second transition effect to slide in the menu */
 }
 
 .side-menu a {
@@ -61,7 +77,7 @@ h2 {
 .side-menu .closebtn {
     position: absolute;
     top: 0;
-    right: 25px;
+    right: 25px; /* Positionné à droite pour fermer le menu */
     font-size: 36px;
     margin-left: 50px;
 }
@@ -69,4 +85,10 @@ h2 {
 #open-menu-btn {
     font-size: 20px;
     cursor: pointer;
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 2; /* Assurez-vous que le bouton est au-dessus du contenu */
 }
+
+/* Ajoutez d'autres styles nécessaires ici */

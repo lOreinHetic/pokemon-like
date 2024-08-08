@@ -12,26 +12,26 @@
         <p id="player-stats"></p>
         <p id="enemy-stats"></p>
     </div>
-    
-    <button id="open-menu-btn">Ouvrir le menu</button>
-
-    <!-- Menu -->
-    <div id="side-menu" class="side-menu">
-        <a href="javascript:void(0)" class="closebtn" id="close-menu-btn">&times;</a>
-        <button onclick="goToHome()">Accueil</button>
-        <button onclick="pauseGame()">Pause</button>
-        <button onclick="restartGame()">Recommancer</button>
-    </div>
-
     <h2>Choisis ton action</h2>
     <button onclick="battleRound('attack')">Attaque</button>
     <button onclick="battleRound('defend')">Défence</button>
 
-    <!-- <nav>
-        <a href="index.html">Acceuil</a>
+    <nav>
+        <a href="index.html">Accueil</a>
         <a href="create_team.html">Voir tes Pokemon</a>
         <a href="combat.html">Rejouer</a>
-    </nav> -->
+    </nav>
+
+    <!-- Bouton pour ouvrir le menu en haut à droite -->
+    <button id="open-menu-btn">☰ Ouvrir le menu</button>
+
+    <!-- Menu latéral droit -->
+    <div id="side-menu" class="side-menu">
+        <a href="javascript:void(0)" class="closebtn" id="close-menu-btn">&times;</a>
+        <button onclick="goToHome()">Accueil</button>
+        <button onclick="pauseGame()">Pause</button>
+        <button onclick="restartGame()">Recommencer</button>
+    </div>
 
     <script type="module" src="js/game.js"></script>
     <script type="module" src="js/menu.js"></script>
