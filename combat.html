@@ -8,13 +8,18 @@
 </head>
 <body>
     <h1>Zone de combat</h1>
-    <div id="pokemon-stats">
-        <p id="player-stats"></p>
-        <p id="enemy-stats"></p>
+    <div id="pokemon-selection">
+        <h2>Sélectionnez vos Pokémons pour le combat</h2>
+        <div id="pokemon-list"></div>
     </div>
-    <h2>Choisis ton action</h2>
-    <button onclick="battleRound('attack')">Attaque</button>
-    <button onclick="battleRound('defend')">Défense</button>
+    <div id="combat-zone" style="display: none;">
+        <div id="player-pokemon-stats"></div>
+        <div id="enemy-pokemon-stats"></div>
+        <h2>Choisissez votre action</h2>
+        <button onclick="battleRound('attack')">Attaque</button>
+        <button onclick="battleRound('defend')">Défense</button>
+        <button onclick="changePokemon()">Changer de Pokémon</button>
+    </div>
 
     <!-- Bouton pour ouvrir le menu en haut à droite -->
     <button id="open-menu-btn">&#9776;</button>
@@ -31,4 +36,3 @@
     <script type="module" src="js/menu.js"></script>
 </body>
 </html>
-
