@@ -18,12 +18,26 @@ class Pokemon {
 let playerPokemons = [];
 let enemyPokemon;
 let currentPlayerPokemon;
+let timerInterval;
+let gameTime = 0;
+let playerTurn = true; // True if it's player's turn, false if it's enemy's turn
 
 function loadPokemons() {
     const storedPokemons = JSON.parse(localStorage.getItem('playerPokemons'));
     if (storedPokemons) {
         playerPokemons = storedPokemons.map(p => new Pokemon(p.name, p.hp, p.attack));
     }
+}
+
+function startTimer() {
+    timerInterval = setInterval(() => {
+        gameTime++;
+        document.getElementById('timer').innerText = `Temps: ${gameTime}s`;
+    }, 1000);
+}
+
+function stopTimer() {
+    clearInterval(timerInterval);
 }
 
 function selectPokemon(index) {
@@ -33,6 +47,10 @@ function selectPokemon(index) {
     document.getElementById('player-pokemon-stats').innerText = `Nom: ${currentPlayerPokemon.name}, HP: ${currentPlayerPokemon.hp}, Attaque: ${currentPlayerPokemon.attack}`;
     enemyPokemon = new Pokemon('Enemy', Math.floor(Math.random() * 100) + 50, Math.floor(Math.random() * 30) + 10);
     document.getElementById('enemy-pokemon-stats').innerText = `Nom: ${enemyPokemon.name}, HP: ${enemyPokemon.hp}, Attaque: ${enemyPokemon.attack}`;
+    startTimer();
+    playerTurn = true;
+    updateTurnIndicator();
+    showActionButtons();
 }
 
 function displayPokemonSelection() {
@@ -53,33 +71,84 @@ function displayPokemonSelection() {
     });
 }
 
-function battleRound(action) {
+function updateTurnIndicator() {
+    const turnIndicator = document.getElementById('turn-indicator');
+    turnIndicator.innerText = `Tour: ${playerTurn ? 'Joueur' : 'Adversaire'}`;
+}
+
+function showActionButtons() {
+    document.getElementById('attack-button').style.display = 'block';
+    document.getElementById('defend-button').style.display = 'block';
+    document.getElementById('change-pokemon-button').style.display = 'block';
+}
+
+function hideActionButtons() {
+    document.getElementById('attack-button').style.display = 'none';
+    document.getElementById('defend-button').style.display = 'none';
+    document.getElementById('change-pokemon-button').style.display = 'none';
+}
+
+function chooseAction(action) {
+    hideActionButtons();
+    playerTurn = false;
+    updateTurnIndicator();
+    setTimeout(() => {
+        const enemyAction = Math.random() < 0.5 ? 'attack' : 'defend';
+        const result = executeRound(action, enemyAction);
+        alert(result);
+        playerTurn = true;
+        updateTurnIndicator();
+        if (currentPlayerPokemon.isAlive() && enemyPokemon.isAlive()) {
+            showActionButtons();
+        } else {
+            showGameOverMessage();
+        }
+    }, 2000); // Simulate enemy's thinking time with a 2-second delay
+}
+
+function executeRound(playerAction, enemyAction) {
     if (!currentPlayerPokemon.isAlive() || !enemyPokemon.isAlive()) {
-        alert('Le combat est terminé');
         return;
     }
 
-    if (action === 'attack') {
-        enemyPokemon.takeDamage(currentPlayerPokemon.attack);
-        document.getElementById('enemy-pokemon-stats').innerText = `Nom: ${enemyPokemon.name}, HP: ${enemyPokemon.hp}, Attaque: ${enemyPokemon.attack}`;
-    } else if (action === 'defend') {
-        currentPlayerPokemon.takeDamage(Math.floor(enemyPokemon.attack / 2));
+    let playerDamage = 0;
+    let enemyDamage = 0;
+
+    // Player's action
+    if (playerAction === 'attack') {
+        enemyDamage = currentPlayerPokemon.attack;
+        enemyPokemon.takeDamage(enemyDamage);
+    } else if (playerAction === 'defend') {
+        playerDamage = Math.floor(enemyPokemon.attack / 2);
+        currentPlayerPokemon.takeDamage(playerDamage);
     }
 
-    if (enemyPokemon.isAlive()) {
-        const enemyAction = Math.random() < 0.5 ? 'attack' : 'defend';
-        if (enemyAction === 'attack') {
-            currentPlayerPokemon.takeDamage(enemyPokemon.attack);
-        } else {
-            enemyPokemon.takeDamage(Math.floor(currentPlayerPokemon.attack / 2));
-        }
+    // Enemy's action
+    if (enemyAction === 'attack') {
+        playerDamage = enemyPokemon.attack;
+        currentPlayerPokemon.takeDamage(playerDamage);
+    } else if (enemyAction === 'defend') {
+        enemyDamage = Math.floor(currentPlayerPokemon.attack / 2);
+        enemyPokemon.takeDamage(enemyDamage);
     }
 
+    document.getElementById('enemy-pokemon-stats').innerText = `Nom: ${enemyPokemon.name}, HP: ${enemyPokemon.hp}, Attaque: ${enemyPokemon.attack}`;
     document.getElementById('player-pokemon-stats').innerText = `Nom: ${currentPlayerPokemon.name}, HP: ${currentPlayerPokemon.hp}, Attaque: ${currentPlayerPokemon.attack}`;
 
-    if (!currentPlayerPokemon.isAlive() || !enemyPokemon.isAlive()) {
-        alert('Le combat est terminé');
+    return `Vous avez ${playerAction === 'attack' ? `infligé ${enemyDamage} dégâts` : `perdu ${playerDamage} HP`} à l'ennemi.\nL'adversaire a ${enemyAction === 'attack' ? `infligé ${playerDamage} dégâts` : `perdu ${enemyDamage} HP`} à vous.`;
+}
+
+function showGameOverMessage() {
+    let message = '';
+    if (!currentPlayerPokemon.isAlive() && !enemyPokemon.isAlive()) {
+        message = 'Le combat est terminé : Match nul';
+    } else if (!currentPlayerPokemon.isAlive()) {
+        message = 'Le combat est terminé : Vous avez perdu';
+    } else if (!enemyPokemon.isAlive()) {
+        message = 'Le combat est terminé : Vous avez gagné';
     }
+    alert(message);
+    stopTimer();
 }
 
 function changePokemon() {
@@ -95,6 +164,6 @@ window.onload = function() {
 }
 
 // Attacher les fonctions à window pour les rendre accessibles globalement
-window.battleRound = battleRound;
 window.changePokemon = changePokemon;
 window.selectPokemon = selectPokemon;
+window.chooseAction = chooseAction;
