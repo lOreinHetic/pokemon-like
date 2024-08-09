@@ -7,21 +7,25 @@
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-    <h1>Créer vos Pokémons</h1>
-    <form id="team-form">
-        <div class="pokemon-entry">
-            <label for="pokemon-name">Nom:</label>
-            <input type="text" id="pokemon-name" class="pokemon-name" name="name">
-            <label for="pokemon-hp">HP:</label>
-            <input type="number" id="pokemon-hp" class="pokemon-hp" name="hp">
-            <label for="pokemon-attack">Attaque:</label>
-            <input type="number" id="pokemon-attack" class="pokemon-attack" name="attack">
+    <div class="main-container">
+        <h1>Créer votre équipe</h1>
+
+        <!-- Section de sélection des Pokémon -->
+        <div id="pokemon-selection">
+            <h2>Choisis tes Pokémon</h2>
+            <div id="pokemon-list"></div>
         </div>
-        <button type="button" id="add-pokemon">Ajouter Pokémon</button>
-    </form>
-    <div id="pokemon-list"></div>
-    <button onclick="window.location.href='index.html'">Retour à l'accueil</button>
-    <button onclick="startBattle()">Lancer le combat</button>
+
+        <!-- Boutons de navigation -->
+        <button onclick="window.location.href='index.html'">Retour à l'accueil</button>
+    </div>
+
+    <!-- Menu latéral droit pour afficher l'équipe sélectionnée -->
+    <div id="side-menu" class="side-menu">
+        <h2>Ton équipe</h2>
+        <div id="team-list"></div>
+        <button id="validate-team-button" onclick="validateTeam()">Valider l'équipe</button>
+    </div>
 
     <script type="module" src="js/create_team.js"></script>
 </body>

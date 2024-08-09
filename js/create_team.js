@@ -1,116 +1,74 @@
-import { Pokemon } from './pokemon.js';
+import { availablePokemons } from './pokemon.js';
 
-let pokemons = [];
+let playerTeam = [];
 
-// Fonction pour afficher les Pokémons
-function displayPokemons() {
+// Fonction pour afficher les Pokémon disponibles
+function displayAvailablePokemons() {
     const pokemonList = document.getElementById('pokemon-list');
     pokemonList.innerHTML = '';
-    pokemons.forEach((pokemon, index) => {
+
+    availablePokemons.forEach((pokemon, index) => {
         const pokemonDiv = document.createElement('div');
         pokemonDiv.className = 'pokemon-item';
         pokemonDiv.innerHTML = `
-            <div style="display: flex; justify-content: space-between; align-items: center;">
-                <p>Nom: ${pokemon.name}, HP: ${pokemon.hp}, Attaque: ${pokemon.attack}</p>
-                <div>
-                    <button onclick="editPokemon(${index})">Modifier</button>
-                    <button onclick="deletePokemon(${index})">Supprimer</button>
-                </div>
+            <div>
+                <p>Nom: ${pokemon.name}, Type: ${pokemon.type}, HP: ${pokemon.hp}, Attaque: ${pokemon.attack}</p>
             </div>
+            <button onclick="addPokemonToTeam(${index})">Ajouter à l'équipe</button>
         `;
-        pokemonList.prepend(pokemonDiv); // Ajoute le dernier Pokémon en haut de la liste
+        pokemonList.appendChild(pokemonDiv);
     });
 }
 
-// Fonction pour ajouter un nouveau Pokémon
-function addPokemon() {
-    const name = document.getElementById('pokemon-name').value;
-    const hp = parseInt(document.getElementById('pokemon-hp').value, 10);
-    const attack = parseInt(document.getElementById('pokemon-attack').value, 10);
-
-    if (name && hp && attack) {
-        const pokemon = new Pokemon(name, hp, attack);
-        pokemons.push(pokemon);
-        displayPokemons();
-        savePokemons(); // Sauvegarde des Pokémons après l'ajout
-        document.getElementById('team-form').reset();
+// Fonction pour ajouter un Pokémon à l'équipe
+function addPokemonToTeam(index) {
+    if (playerTeam.length < 3) {
+        playerTeam.push(availablePokemons[index]);
+        displayPlayerTeam();
     } else {
-        alert('Veuillez remplir tous les champs');
+        alert('Vous avez déjà 3 Pokémon dans votre équipe.');
     }
 }
 
-// Fonction pour modifier un Pokémon
-function editPokemon(index) {
-    const pokemon = pokemons[index];
-    document.getElementById('pokemon-name').value = pokemon.name;
-    document.getElementById('pokemon-hp').value = pokemon.hp;
-    document.getElementById('pokemon-attack').value = pokemon.attack;
+// Fonction pour afficher l'équipe du joueur dans le menu latéral
+function displayPlayerTeam() {
+    const teamList = document.getElementById('team-list');
+    teamList.innerHTML = '';
 
-    const addButton = document.getElementById('add-pokemon');
-    const form = document.getElementById('team-form');
-
-    addButton.style.display = 'none'; // Masquer le bouton Ajouter Pokémon
-    const saveButton = document.createElement('button');
-    saveButton.id = 'save-button';
-    saveButton.innerText = 'Sauvegarder les modifications';
-    saveButton.onclick = function() {
-        savePokemon(index);
-    };
-
-    form.appendChild(saveButton);
+    playerTeam.forEach((pokemon, index) => {
+        const teamDiv = document.createElement('div');
+        teamDiv.className = 'team-item';
+        teamDiv.innerHTML = `
+            <div>
+                <p>Nom: ${pokemon.name}, Type: ${pokemon.type}, HP: ${pokemon.hp}, Attaque: ${pokemon.attack}</p>
+            </div>
+            <button onclick="removePokemonFromTeam(${index})">Retirer</button>
+        `;
+        teamList.appendChild(teamDiv);
+    });
 }
 
-// Fonction pour sauvegarder les modifications d'un Pokémon
-function savePokemon(index) {
-    const name = document.getElementById('pokemon-name').value;
-    const hp = parseInt(document.getElementById('pokemon-hp').value, 10);
-    const attack = parseInt(document.getElementById('pokemon-attack').value, 10);
+// Fonction pour retirer un Pokémon de l'équipe
+function removePokemonFromTeam(index) {
+    playerTeam.splice(index, 1);
+    displayPlayerTeam();
+}
 
-    if (name && hp && attack) {
-        pokemons[index] = new Pokemon(name, hp, attack);
-        displayPokemons();
-        savePokemons(); // Sauvegarde des Pokémons après modification
-        document.getElementById('team-form').reset();
-
-        const saveButton = document.getElementById('save-button');
-        saveButton.remove(); // Supprimer le bouton Sauvegarder les modifications
-
-        const addButton = document.getElementById('add-pokemon');
-        addButton.style.display = 'inline'; // Afficher le bouton Ajouter Pokémon
+// Fonction pour valider l'équipe et passer au combat
+function validateTeam() {
+    if (playerTeam.length === 3) {
+        localStorage.setItem('playerTeam', JSON.stringify(playerTeam));
+        window.location.href = 'combat.html';
     } else {
-        alert('Veuillez remplir tous les champs');
+        alert('Vous devez avoir 3 Pokémon dans votre équipe pour commencer le combat.');
     }
 }
 
-// Fonction pour supprimer un Pokémon
-function deletePokemon(index) {
-    pokemons.splice(index, 1);
-    displayPokemons();
-    savePokemons(); // Sauvegarde des Pokémons après suppression
-}
-
-// Fonction pour enregistrer les Pokémons dans le stockage local
-function savePokemons() {
-    localStorage.setItem('playerPokemons', JSON.stringify(pokemons));
-}
-
-// Fonction pour lancer le combat
-function startBattle() {
-    savePokemons();
-    window.location.href = 'combat.html';
-}
-
-// Charger les Pokémons à partir du stockage local
 window.onload = function() {
-    document.getElementById('add-pokemon').addEventListener('click', addPokemon);
-
-    if (localStorage.getItem('playerPokemons')) {
-        pokemons = JSON.parse(localStorage.getItem('playerPokemons')).map(p => new Pokemon(p.name, p.hp, p.attack));
-        displayPokemons();
-    }
+    displayAvailablePokemons();
+    displayPlayerTeam();
 }
 
-// Attacher les fonctions à window pour les rendre accessibles globalement
-window.startBattle = startBattle;
-window.editPokemon = editPokemon;
-window.deletePokemon = deletePokemon;
+window.addPokemonToTeam = addPokemonToTeam;
+window.removePokemonFromTeam = removePokemonFromTeam;
+window.validateTeam = validateTeam;

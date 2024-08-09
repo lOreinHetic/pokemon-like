@@ -1,6 +1,7 @@
 class Pokemon {
-    constructor(name, hp, attack) {
+    constructor(name, type, hp, attack) {
         this.name = name;
+        this.type = type;  // "eau", "feu", "plante"
         this.hp = hp;
         this.attack = attack;
     }
@@ -15,6 +16,27 @@ class Pokemon {
     }
 }
 
+// Fonction pour calculer les dégâts en fonction du type
+function calculateDamage(attack, attackerType, defenderType) {
+    let typeModifier = 1;
+
+    if (attackerType === 'feu' && defenderType === 'plante') {
+        typeModifier = 2; // Feu est fort contre Plante
+    } else if (attackerType === 'feu' && defenderType === 'eau') {
+        typeModifier = 0.5; // Feu est faible contre Eau
+    } else if (attackerType === 'eau' && defenderType === 'feu') {
+        typeModifier = 2; // Eau est fort contre Feu
+    } else if (attackerType === 'eau' && defenderType === 'plante') {
+        typeModifier = 0.5; // Eau est faible contre Plante
+    } else if (attackerType === 'plante' && defenderType === 'eau') {
+        typeModifier = 2; // Plante est fort contre Eau
+    } else if (attackerType === 'plante' && defenderType === 'feu') {
+        typeModifier = 0.5; // Plante est faible contre Feu
+    }
+
+    return attack * typeModifier;
+}
+
 let playerPokemons = [];
 let enemyPokemon;
 let currentPlayerPokemon;
@@ -25,7 +47,7 @@ let playerTurn = true; // True if it's player's turn, false if it's enemy's turn
 function loadPokemons() {
     const storedPokemons = JSON.parse(localStorage.getItem('playerPokemons'));
     if (storedPokemons) {
-        playerPokemons = storedPokemons.map(p => new Pokemon(p.name, p.hp, p.attack));
+        playerPokemons = storedPokemons.map(p => new Pokemon(p.name, p.type, p.hp, p.attack));
     }
 }
 
@@ -44,9 +66,9 @@ function selectPokemon(index) {
     currentPlayerPokemon = playerPokemons[index];
     document.getElementById('pokemon-selection').style.display = 'none';
     document.getElementById('combat-zone').style.display = 'block';
-    document.getElementById('player-pokemon-stats').innerText = `Nom: ${currentPlayerPokemon.name}, HP: ${currentPlayerPokemon.hp}, Attaque: ${currentPlayerPokemon.attack}`;
-    enemyPokemon = new Pokemon('Enemy', Math.floor(Math.random() * 100) + 50, Math.floor(Math.random() * 30) + 10);
-    document.getElementById('enemy-pokemon-stats').innerText = `Nom: ${enemyPokemon.name}, HP: ${enemyPokemon.hp}, Attaque: ${enemyPokemon.attack}`;
+    document.getElementById('player-pokemon-stats').innerText = `Nom: ${currentPlayerPokemon.name}, HP: ${currentPlayerPokemon.hp}, Attaque: ${currentPlayerPokemon.attack}, Type: ${currentPlayerPokemon.type}`;
+    enemyPokemon = new Pokemon('Enemy', 'plante', Math.floor(Math.random() * 100) + 50, Math.floor(Math.random() * 30) + 10);
+    document.getElementById('enemy-pokemon-stats').innerText = `Nom: ${enemyPokemon.name}, HP: ${enemyPokemon.hp}, Attaque: ${enemyPokemon.attack}, Type: ${enemyPokemon.type}`;
     startTimer();
     playerTurn = true;
     updateTurnIndicator();
@@ -62,7 +84,7 @@ function displayPokemonSelection() {
             pokemonDiv.className = 'pokemon-item';
             pokemonDiv.innerHTML = `
                 <div style="display: flex; justify-content: space-between; align-items: center;">
-                    <p>Nom: ${pokemon.name}, HP: ${pokemon.hp}, Attaque: ${pokemon.attack}</p>
+                    <p>Nom: ${pokemon.name}, HP: ${pokemon.hp}, Attaque: ${pokemon.attack}, Type: ${pokemon.type}</p>
                     <button onclick="selectPokemon(${index})">Sélectionner</button>
                 </div>
             `;
@@ -116,7 +138,7 @@ function executeRound(playerAction, enemyAction) {
 
     // Player's action
     if (playerAction === 'attack') {
-        enemyDamage = currentPlayerPokemon.attack;
+        enemyDamage = calculateDamage(currentPlayerPokemon.attack, currentPlayerPokemon.type, enemyPokemon.type);
         enemyPokemon.takeDamage(enemyDamage);
     } else if (playerAction === 'defend') {
         playerDamage = Math.floor(enemyPokemon.attack / 2);
@@ -125,15 +147,15 @@ function executeRound(playerAction, enemyAction) {
 
     // Enemy's action
     if (enemyAction === 'attack') {
-        playerDamage = enemyPokemon.attack;
+        playerDamage = calculateDamage(enemyPokemon.attack, enemyPokemon.type, currentPlayerPokemon.type);
         currentPlayerPokemon.takeDamage(playerDamage);
     } else if (enemyAction === 'defend') {
         enemyDamage = Math.floor(currentPlayerPokemon.attack / 2);
         enemyPokemon.takeDamage(enemyDamage);
     }
 
-    document.getElementById('enemy-pokemon-stats').innerText = `Nom: ${enemyPokemon.name}, HP: ${enemyPokemon.hp}, Attaque: ${enemyPokemon.attack}`;
-    document.getElementById('player-pokemon-stats').innerText = `Nom: ${currentPlayerPokemon.name}, HP: ${currentPlayerPokemon.hp}, Attaque: ${currentPlayerPokemon.attack}`;
+    document.getElementById('enemy-pokemon-stats').innerText = `Nom: ${enemyPokemon.name}, HP: ${enemyPokemon.hp}, Attaque: ${enemyPokemon.attack}, Type: ${enemyPokemon.type}`;
+    document.getElementById('player-pokemon-stats').innerText = `Nom: ${currentPlayerPokemon.name}, HP: ${currentPlayerPokemon.hp}, Attaque: ${currentPlayerPokemon.attack}, Type: ${currentPlayerPokemon.type}`;
 
     return `Vous avez ${playerAction === 'attack' ? `infligé ${enemyDamage} dégâts` : `perdu ${playerDamage} HP`} à l'ennemi.\nL'adversaire a ${enemyAction === 'attack' ? `infligé ${playerDamage} dégâts` : `perdu ${enemyDamage} HP`} à vous.`;
 }

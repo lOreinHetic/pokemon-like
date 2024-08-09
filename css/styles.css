@@ -1,40 +1,60 @@
 body,label {
     font-family: Arial, sans-serif;
-    text-align: center;
     background-color: #f0f0f0;
 }
 
 h1 {
     color: #333;
-}
-
-a {
-    text-decoration: none;
-    color: #007BFF;
-}
-
-button {
-    padding: 10px 20px;
-    margin: 10px;
-    font-size: 16px;
-    cursor: pointer;
-}
-
-form {
-    margin: 20px 0;
+    text-align: center;
 }
 
 h2 {
     color: #007BFF;
+    text-align: center;
 }
 
-#start-battle {
-    display: none;
+.main-container {
+    width: calc(100% - 250px); /* Laisser de l'espace pour le menu latéral */
+    margin-left: auto;
+    margin-right: auto;
+    padding: 20px;
+    box-sizing: border-box;
 }
 
+#pokemon-selection {
+    margin: 20px;
+}
+
+.pokemon-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 10px 0;
+    padding: 10px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+#validate-team-button {
+    margin-top: 20px;
+    padding: 10px;
+    width: 100%;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#validate-team-button:hover {
+    background-color: #0056b3;
+}
+
+/* Styles pour le menu latéral */
 .side-menu {
     height: 100%;
-    width: 0;
+    width: 250px;
     position: fixed;
     z-index: 3;
     top: 0;
@@ -42,7 +62,7 @@ h2 {
     background-color: #111;
     overflow-x: hidden;
     padding-top: 60px;
-    transition: 0.5s;
+    box-shadow: -3px 0 5px rgba(0,0,0,0.2);
 }
 
 .side-menu a,
@@ -65,27 +85,25 @@ h2 {
     color: #f1f1f1;
 }
 
-.side-menu .closebtn {
-    position: absolute;
-    top: 0;
-    right: 25px;
-    font-size: 36px;
-    margin-left: 50px;
+.team-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 10px 0;
+    padding: 10px;
+    background-color: #222;
+    border-radius: 5px;
 }
 
-#open-menu-btn {
-    font-size: 30px;
-    cursor: pointer;
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    z-index: 2;
-    background: none;
+.team-item button {
+    background-color: #ff4c4c;
     border: none;
-    outline: none;
-    color: #111;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 3px;
+    cursor: pointer;
 }
 
-#open-menu-btn.open {
-    right: 270px;
+.team-item button:hover {
+    background-color: #ff0000;
 }

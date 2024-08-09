@@ -10,17 +10,21 @@
     <h1>Zone de combat</h1>
     <div id="timer">Temps: 0s</div>
     <div id="turn-indicator">Tour: Joueur</div>
-    <div id="pokemon-selection">
-        <h2>Sélectionnez vos Pokémons pour le combat</h2>
-        <div id="pokemon-list"></div>
-    </div>
-    <div id="combat-zone" style="display: none;">
-        <div id="player-pokemon-stats"></div>
-        <div id="enemy-pokemon-stats"></div>
+    
+    <!-- Section de combat -->
+    <div id="combat-zone">
+        <div>
+            <h2>Votre Pokémon</h2>
+            <div id="player-pokemon-stats"></div>
+        </div>
+        <div>
+            <h2>Pokémon Adverse</h2>
+            <div id="enemy-pokemon-stats"></div>
+        </div>
+        
         <h2>Choisissez votre action</h2>
-        <button id="attack-button" style="display: none;" onclick="chooseAction('attack')">Attaque</button>
-        <button id="defend-button" style="display: none;" onclick="chooseAction('defend')">Défense</button>
-        <button id="change-pokemon-button" style="display: none;" onclick="changePokemon()">Changer de Pokémon</button>
+        <button id="attack-button" onclick="chooseAction('attack')">Attaque</button>
+        <button id="defend-button" onclick="chooseAction('defend')">Défense</button>
     </div>
 
     <!-- Bouton pour ouvrir le menu en haut à droite -->
