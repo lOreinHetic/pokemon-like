@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Combat</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <h1>Zone de combat</h1>
+    <div id="timer">Temps: 0s</div>
+    <div id="turn-indicator">Tour: Joueur</div>
+    
+    <!-- Section de combat -->
+    <div id="combat-zone">
+        <div>
+            <h2>Votre Pokémon</h2>
+            <div id="player-pokemon-stats"></div>
+        </div>
+        <div>
+            <h2>Pokémon Adverse</h2>
+            <div id="enemy-pokemon-stats"></div>
+        </div>
+        
+        <h2>Choisissez votre action</h2>
+        <button id="attack-button" onclick="chooseAction('attack')">Attaque</button>
+        <button id="defend-button" onclick="chooseAction('defend')">Défense</button>
+    </div>
+
+    <!-- Bouton pour ouvrir le menu en haut à droite -->
+    <button id="open-menu-btn">&#9776;</button>
+
+    <!-- Menu latéral droit -->
+    <div id="side-menu" class="side-menu">
+        <a href="javascript:void(0)" class="closebtn" id="close-menu-btn">&times;</a>
+        <button onclick="goToHome()">Accueil</button>
+        <button onclick="pauseGame()">Pause</button>
+        <button onclick="restartGame()">Recommencer</button>
+    </div>
+
+    <script type="module" src="js/game.js"></script>
+    <script type="module" src="js/menu.js"></script>
+</body>
+</html>

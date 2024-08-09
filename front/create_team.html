@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Créer une équipe</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <h1>Créer votre équipe</h1>
+    
+    <!-- Conteneur principal pour le contenu et le menu -->
+    <div class="content-container">
+        <!-- Contenu principal -->
+        <div class="main-content">
+            <!-- Section de sélection des Pokémon -->
+            <div id="pokemon-selection">
+                <h2>Choisis tes Pokémon</h2>
+                <div id="pokemon-list"></div>
+            </div>
+
+            <!-- Boutons de navigation -->
+            <button onclick="window.location.href='index.html'">Retour à l'accueil</button>
+        </div>
+
+        <!-- Menu latéral droit pour afficher l'équipe sélectionnée -->
+        <div id="side-menu" class="side-menu">
+            <h2>Ton équipe</h2>
+            <div id="team-list"></div>
+            <button id="validate-team-button" onclick="validateTeam()">Valider l'équipe</button>
+        </div>
+    </div>
+
+    <script type="module" src="js/create_team.js"></script>
+</body>
+</html>

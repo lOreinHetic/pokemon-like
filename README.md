@@ -9,3 +9,12 @@ Pour lancer le projet, assurez-vous d'avoir Node.js and npm d'installé, puis su
     ```bash
    git clone https://github.com/lOreinHetic/pokemon-like.git
    cd pokemon-like
+
+## Server
+### Init node express
+1. `npm i`
+2. `npm run dev`
+3. open in postamn `http://localhost:3000`
+### open db pocketbase
+1. `./pocketbase serve` lancer la base de donnée
+3. Ourah !!
