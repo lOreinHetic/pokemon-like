@@ -12,7 +12,10 @@ function displayAvailablePokemons() {
         pokemonDiv.className = 'pokemon-item';
         pokemonDiv.innerHTML = `
             <div>
-                <p>Nom: ${pokemon.name}, Type: ${pokemon.type}, HP: ${pokemon.hp}, Attaque: ${pokemon.attack}</p>
+                <p><strong>Nom:</strong> ${pokemon.name}</p>
+                <p><strong>Type:</strong> ${pokemon.type}</p>
+                <p><strong>HP:</strong> ${pokemon.hp}</p>
+                <p><strong>Attaque:</strong> ${pokemon.attack}</p>
             </div>
             <button onclick="addPokemonToTeam(${index})">Ajouter à l'équipe</button>
         `;
@@ -23,14 +26,19 @@ function displayAvailablePokemons() {
 // Fonction pour ajouter un Pokémon à l'équipe
 function addPokemonToTeam(index) {
     if (playerTeam.length < 3) {
-        playerTeam.push(availablePokemons[index]);
-        displayPlayerTeam();
+        const selectedPokemon = availablePokemons[index];
+        if (!playerTeam.includes(selectedPokemon)) {
+            playerTeam.push(selectedPokemon);
+            displayPlayerTeam();
+        } else {
+            alert(`${selectedPokemon.name} est déjà dans votre équipe.`);
+        }
     } else {
         alert('Vous avez déjà 3 Pokémon dans votre équipe.');
     }
 }
 
-// Fonction pour afficher l'équipe du joueur dans le menu latéral
+// Fonction pour afficher l'équipe du joueur
 function displayPlayerTeam() {
     const teamList = document.getElementById('team-list');
     teamList.innerHTML = '';
@@ -40,7 +48,10 @@ function displayPlayerTeam() {
         teamDiv.className = 'team-item';
         teamDiv.innerHTML = `
             <div>
-                <p>Nom: ${pokemon.name}, Type: ${pokemon.type}, HP: ${pokemon.hp}, Attaque: ${pokemon.attack}</p>
+                <p><strong>Nom:</strong> ${pokemon.name}</p>
+                <p><strong>Type:</strong> ${pokemon.type}</p>
+                <p><strong>HP:</strong> ${pokemon.hp}</p>
+                <p><strong>Attaque:</strong> ${pokemon.attack}</p>
             </div>
             <button onclick="removePokemonFromTeam(${index})">Retirer</button>
         `;
@@ -64,11 +75,13 @@ function validateTeam() {
     }
 }
 
+// Initialiser la page
 window.onload = function() {
     displayAvailablePokemons();
     displayPlayerTeam();
 }
 
+// Exposer les fonctions au scope global
 window.addPokemonToTeam = addPokemonToTeam;
 window.removePokemonFromTeam = removePokemonFromTeam;
 window.validateTeam = validateTeam;
