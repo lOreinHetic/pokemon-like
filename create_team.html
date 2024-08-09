@@ -3,25 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Créer ton équipe</title>
+    <title>Créer une équipe</title>
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-    <h1>Créer ton équipe</h1>
-    <form id="team-form">
-        <label for="pokemon-name">Nom du Pokemon:</label>
-        <input type="text" id="pokemon-name" name="pokemon-name">
-        <label for="pokemon-hp">HP:</label>
-        <input type="number" id="pokemon-hp" name="pokemon-hp">
-        <label for="pokemon-attack">Attaque:</label>
-        <input type="number" id="pokemon-attack" name="pokemon-attack">
-        <button type="submit">Créer ton Pokemon</button>
-    </form>
+    <h1>Créer votre équipe</h1>
+    
+    <!-- Conteneur principal pour le contenu et le menu -->
+    <div class="content-container">
+        <!-- Contenu principal -->
+        <div class="main-content">
+            <!-- Section de sélection des Pokémon -->
+            <div id="pokemon-selection">
+                <h2>Choisis tes Pokémon</h2>
+                <div id="pokemon-list"></div>
+            </div>
 
-    <h2>Options de combat</h2>
-    <button onclick="battleRound('attack')">Attaque</button>
-    <button onclick="battleRound('defend')">Défence</button>
-        
-    <script src="js/game.js"></script>
+            <!-- Boutons de navigation -->
+            <button onclick="window.location.href='index.html'">Retour à l'accueil</button>
+        </div>
+
+        <!-- Menu latéral droit pour afficher l'équipe sélectionnée -->
+        <div id="side-menu" class="side-menu">
+            <h2>Ton équipe</h2>
+            <div id="team-list"></div>
+            <button id="validate-team-button" onclick="validateTeam()">Valider l'équipe</button>
+        </div>
+    </div>
+
+    <script type="module" src="js/create_team.js"></script>
 </body>
 </html>

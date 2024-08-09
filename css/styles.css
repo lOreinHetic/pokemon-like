@@ -1,0 +1,120 @@
+body, label {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    margin: 0; /* Suppression des marges par défaut */
+}
+
+h1 {
+    color: #333;
+    text-align: center;
+    padding: 20px 0;
+    margin: 0; /* Suppression des marges par défaut */
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+h2 {
+    color: #007BFF;
+    text-align: center;
+    margin-top: 0; /* Suppression de la marge supérieure par défaut */
+}
+
+/* Conteneur Flex pour le contenu principal et le menu latéral */
+.content-container {
+    display: flex;
+    min-height: calc(100vh - 80px); /* Hauteur de la fenêtre moins la hauteur du header */
+}
+
+/* Styles pour le contenu principal */
+.main-content {
+    flex: 3; /* 75% de la largeur */
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+/* Styles pour le menu latéral */
+.side-menu {
+    flex: 1; /* 25% de la largeur */
+    background-color: #111;
+    color: #fff;
+    padding: 20px;
+    box-sizing: border-box;
+    overflow-y: auto; /* Ajout d'un défilement si le contenu dépasse */
+}
+
+/* Styles pour les éléments de Pokémon dans la sélection */
+.pokemon-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 10px 0;
+    padding: 10px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+/* Boutons à l'intérieur de pokemon-item */
+.pokemon-item button {
+    background-color: #28a745;
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.pokemon-item button:hover {
+    background-color: #218838;
+}
+
+/* Styles pour les éléments de l'équipe dans le menu latéral */
+.team-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 10px 0;
+    padding: 10px;
+    background-color: #222;
+    border-radius: 5px;
+}
+
+/* Boutons à l'intérieur de team-item */
+.team-item button {
+    background-color: #ff4c4c;
+    border: none;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.team-item button:hover {
+    background-color: #ff0000;
+}
+
+/* Styles généraux pour les boutons */
+button {
+    padding: 10px 20px;
+    margin: 10px 5px;
+    font-size: 16px;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    background-color: #007BFF;
+    color: white;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+/* Styles spécifiques pour le bouton de validation de l'équipe */
+#validate-team-button {
+    width: 100%;
+    background-color: #28a745;
+}
+
+#validate-team-button:hover {
+    background-color: #218838;
+}
