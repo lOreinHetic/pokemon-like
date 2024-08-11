@@ -1,22 +1,30 @@
 const express = require('express');
-const PocketBase = require('pocketbase/cjs');
-const cors = require("cors");
+/*const PocketBase = require('pocketbase/cjs');
+const cors = require("cors");*/
+const path = require('path');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-app.use(cors());
-app.use(express.json());
+//app.use(cors());
+//app.use(express.json());
 
 const pb = new PocketBase('http://127.0.0.1:8090');
 
-/* // Route pour la page d'accueil
+// Servir les fichiers statiques du dossier 'front'
+app.use(express.static(path.join(__dirname, '../front')));
+
+app.get('/create_team.html', (req, res) => {
+    res.sendFile(path.join(__dirname, '../front/create_team.html'));
+});
+
+/*
+// Route pour la page d'accueil
 app.get('/', (req, res) => {
     res.send('Hello World!');
 });
-*/
 
-/* // Route pour obtenir une liste paginée de Pokémon
+// Route pour obtenir une liste paginée de Pokémon
 app.get('/pokemon', async (req, res) => {
     try {
         const page = parseInt(req.query.page) || 1;
@@ -27,7 +35,7 @@ app.get('/pokemon', async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 });
-*/
+
 
 // Route pour obtenir tous les Pokémon
 app.get('/pokemon/all', async (req, res) => {
@@ -93,6 +101,7 @@ app.post('/user', async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 });
+*/
 
 // Démarrage du serveur
 app.listen(PORT, () => {

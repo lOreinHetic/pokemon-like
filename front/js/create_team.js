@@ -2,24 +2,6 @@ import { Pokemon } from './pokemon.js';
 
 let playerTeam = [];
 
-// Fonction pour récupérer les Pokémon depuis l'API
-async function fetchAvailablePokemons() {
-    try {
-        const response = await fetch('http://localhost:3000/pokemon/all');
-        if (!response.ok) {
-            throw new Error('Erreur lors de la récupération des Pokémon');
-        }
-        const pokemonsData = await response.json();
-
-        // Transformer les données récupérées en instances de la classe Pokemon
-        const pokemons = pokemonsData.map(p => new Pokemon(p.name, p.type, p.hp, p.attack));
-        return pokemons;
-    } catch (error) {
-        console.error('Erreur:', error);
-        return [];
-    }
-}
-
 // Fonction pour afficher les Pokémon disponibles
 async function displayAvailablePokemons() {
     const pokemonList = document.getElementById('pokemon-list');
