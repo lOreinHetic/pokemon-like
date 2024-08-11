@@ -1,11 +1,31 @@
-import { availablePokemons } from './pokemon.js';
+import { Pokemon } from './pokemon.js';
 
 let playerTeam = [];
 
+// Fonction pour récupérer les Pokémon depuis l'API
+async function fetchAvailablePokemons() {
+    try {
+        const response = await fetch('http://localhost:3000/pokemon/all');
+        if (!response.ok) {
+            throw new Error('Erreur lors de la récupération des Pokémon');
+        }
+        const pokemonsData = await response.json();
+
+        // Transformer les données récupérées en instances de la classe Pokemon
+        const pokemons = pokemonsData.map(p => new Pokemon(p.name, p.type, p.hp, p.attack));
+        return pokemons;
+    } catch (error) {
+        console.error('Erreur:', error);
+        return [];
+    }
+}
+
 // Fonction pour afficher les Pokémon disponibles
-function displayAvailablePokemons() {
+async function displayAvailablePokemons() {
     const pokemonList = document.getElementById('pokemon-list');
     pokemonList.innerHTML = '';
+
+    const availablePokemons = await fetchAvailablePokemons(); // Récupération des Pokémon via l'API
 
     availablePokemons.forEach((pokemon, index) => {
         const pokemonDiv = document.createElement('div');
@@ -21,13 +41,16 @@ function displayAvailablePokemons() {
         `;
         pokemonList.appendChild(pokemonDiv);
     });
+
+    // Stocker les Pokémon disponibles dans une variable globale pour une utilisation ultérieure
+    window.availablePokemons = availablePokemons;
 }
 
 // Fonction pour ajouter un Pokémon à l'équipe
 function addPokemonToTeam(index) {
     if (playerTeam.length < 3) {
-        const selectedPokemon = availablePokemons[index];
-        if (!playerTeam.includes(selectedPokemon)) {
+        const selectedPokemon = window.availablePokemons[index];
+        if (!playerTeam.some(p => p.name === selectedPokemon.name)) { // Vérifie si le Pokémon est déjà dans l'équipe
             playerTeam.push(selectedPokemon);
             displayPlayerTeam();
         } else {

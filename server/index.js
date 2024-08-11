@@ -10,12 +10,13 @@ app.use(express.json());
 
 const pb = new PocketBase('http://127.0.0.1:8090');
 
-// Route pour la page d'accueil
+/* // Route pour la page d'accueil
 app.get('/', (req, res) => {
     res.send('Hello World!');
 });
+*/
 
-// Route pour obtenir une liste paginée de Pokémon
+/* // Route pour obtenir une liste paginée de Pokémon
 app.get('/pokemon', async (req, res) => {
     try {
         const page = parseInt(req.query.page) || 1;
@@ -26,6 +27,7 @@ app.get('/pokemon', async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 });
+*/
 
 // Route pour obtenir tous les Pokémon
 app.get('/pokemon/all', async (req, res) => {
@@ -60,17 +62,6 @@ app.post('/pokemon', async (req, res) => {
     }
 });
 
-// Route pour créer un nouveau User
-app.post('/user', async (req, res) => {
-    try {
-        const data = req.body;
-        const record = await pb.collection('users').create(data);
-        res.status(201).json(record);
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
-});
-
 // Route pour mettre à jour un Pokémon par ID
 app.put('/pokemon/:id', async (req, res) => {
     try {
@@ -87,6 +78,17 @@ app.delete('/pokemon/:id', async (req, res) => {
     try {
         await pb.collection('Pokemon').delete(req.params.id);
         res.status(204).send();
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+// Route pour créer un nouveau User
+app.post('/user', async (req, res) => {
+    try {
+        const data = req.body;
+        const record = await pb.collection('users').create(data);
+        res.status(201).json(record);
     } catch (error) {
         res.status(500).json({ error: error.message });
     }

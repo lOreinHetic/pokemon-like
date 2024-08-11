@@ -14,9 +14,11 @@ export class Pokemon {
         return damage;
     }
 }
+
 //const response = fetch('http://localhost:3000/pokemon/all')
 //console.log("response", response.json())
 
+/*
 // Liste des Pokémon disponibles
 export const availablePokemons = [
     new Pokemon('Bulbizarre', 'plante', 100, 15),
@@ -26,3 +28,4 @@ export const availablePokemons = [
     new Pokemon('Rondoudou', 'eau', 95, 11),
     new Pokemon('Pikachu', 'feu', 105, 13)
 ];
+*/
