@@ -1,21 +1,16 @@
 {
   "name": "server",
   "version": "1.0.0",
-  "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon node index.js"
+    "dev": "./start.sh",
+    "start": "./start.sh",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "pocketbase": "^0.21.4"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": "",
-  "dependencies": {
-    "cors": "^2.8.5",
-    "express": "^4.19.2",
-    "pocketbase": "^0.21.4"
-  },
-  "devDependencies": {
-    "nodemon": "^3.1.4"
-  }
+  "description": ""
 }
