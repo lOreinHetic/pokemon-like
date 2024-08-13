@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Créer ton équipe</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <h1>Créer ton équipe</h1>
+    <form id="team-form">
+        <label for="pokemon-name">Nom du Pokemon:</label>
+        <input type="text" id="pokemon-name" name="pokemon-name">
+        <label for="pokemon-hp">HP:</label>
+        <input type="number" id="pokemon-hp" name="pokemon-hp">
+        <label for="pokemon-attack">Attaque:</label>
+        <input type="number" id="pokemon-attack" name="pokemon-attack">
+        <button type="submit">Créer ton Pokemon</button>
+    </form>
+
+    <div id="pokemon-container">
+        <% pokemons.forEach(pokemon => { %>
+            <div class="pokemon">
+                <h3><%= pokemon.Name %></h3>
+                <p><strong>ATK:</strong> <%= pokemon.ATK %></p>
+                <p><strong>PV:</strong> <%= pokemon.PV %></p>
+                <p><strong>Created:</strong> <%= new Date(pokemon.created).toLocaleString() %></p>
+                <p><strong>Updated:</strong> <%= new Date(pokemon.updated).toLocaleString() %></p>
+            </div>
+        <% }) %>
+    </div>
+
+    <a href="combat.html" id="start-battle" style="display:none">Commencer le combat</a>
+        
+</body>
+</html>
