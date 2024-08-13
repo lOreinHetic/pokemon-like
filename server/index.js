@@ -13,7 +13,17 @@ app.use(express.json());
 
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Route pour récupérer les données et rendre la page HTML
+// Route pour récupérer les données et rendre la page 'login'
+app.get('/login', async (req, res) => {
+    res.render('login.ejs');
+});
+
+// Route pour récupérer les données et rendre la page 'index'
+app.get('/', async (req, res) => {
+    res.render('index.ejs');
+});
+
+// Route pour récupérer les données et rendre sur la page 'create_team'
 app.get('/create_team', async (req, res) => {
     try {
         const records = await pb.collection('pokemon').getFullList();
@@ -24,19 +34,9 @@ app.get('/create_team', async (req, res) => {
     }
 });
 
-// Route pour récupérer les données et rendre la page HTML
-app.get('/', async (req, res) => {
-    res.render('index.ejs');
-});
-
-// Route pour récupérer les données et rendre la page HTML
+// Route pour récupérer les données et rendre la page 'combat'
 app.get('/combat', async (req, res) => {
     res.render('combat.ejs');
-});
-
-// Route pour récupérer les données et rendre la page HTML
-app.get('/login', async (req, res) => {
-    res.render('login.ejs');
 });
 
 const PORT = process.env.PORT || 3000;
