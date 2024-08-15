@@ -3,12 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pokemon-Like</title>
-    <link rel="stylesheet" href="css/styles.css">
+    <title>Accueil - Pokemon-Like</title>
+    <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
-    <h1>Bienvenu sur Pokemon-Like</h1>
-    <a href="create_team">Créer ton équipe</a>
-    <!-- <script src="js/main.js"></script> -->
+    <div class="index-container">
+        <h1>Bienvenue sur Pokemon-Like</h1>
+        <div class="button-group">
+            <button class="button" onclick="window.location.href='/create_team';">Créer ton équipe</button>
+            <button class="button" onclick="window.location.href='/combat';">Lancer un combat</button>
+        </div>
+    </div>
 </body>
 </html>

@@ -1,70 +1,45 @@
-class Pokemon {
-    constructor(name, hp, attack) {
-        this.name = name;
-        this.hp = hp;
-        this.attack = attack;
-    }
+document.addEventListener('DOMContentLoaded', function() {
+    const attack1Btn = document.getElementById('attack1');
+    const attack2Btn = document.getElementById('attack2');
+    const changePokemonBtn = document.getElementById('changePokemon');
+    const runAwayBtn = document.getElementById('runAway');
 
-    takeDamage(damage) {
-        this.hp -= damage;
-        if (this.hp < 0) this.hp = 0;
-    }
+    attack1Btn.addEventListener('click', function() {
+        console.log('Attaque 1 sélectionnée:', attack1Btn.innerText);
+        // Logique pour gérer l'attaque 1
+    });
 
-    isAlive() {
-        return this.hp > 0;
-    }
-}
+    attack2Btn.addEventListener('click', function() {
+        console.log('Attaque 2 sélectionnée:', attack2Btn.innerText);
+        // Logique pour gérer l'attaque 2
+    });
 
-let storedPlayerPokemon = JSON.parse(localStorage.getItem('playerPokemon'));
-let playerPokemon = new Pokemon(storedPlayerPokemon.name, storedPlayerPokemon.hp, storedPlayerPokemon.attack);
+    changePokemonBtn.addEventListener('click', function() {
+        console.log('Changement de Pokémon');
+        // Logique pour changer de Pokémon
+    });
 
-let enemyPokemon = new Pokemon('Salamèche', 100, 15);
-
-document.addEventListener('DOMContentLoaded', (event) => {
-    if (playerPokemon) {
-        updateStats();
-    }
+    runAwayBtn.addEventListener('click', function() {
+        console.log('Fuite sélectionnée');
+        // Logique pour fuir le combat
+    });
 });
 
-function updateStats() {
-    document.getElementById('player-stats').textContent = `Joueur: ${playerPokemon.name} | HP: ${playerPokemon.hp} | Attaque: ${playerPokemon.attack}`;
-    document.getElementById('enemy-stats').textContent = `Ennemie: ${enemyPokemon.name} | HP: ${enemyPokemon.hp} | Attaque: ${enemyPokemon.attack}`;
-}
 
-/* document.getElementById('team-form').addEventListener('submit', function(event) {
-    event.preventDefault();
-    const name = document.getElementById('pokemon-name').value;
-    const hp = parseInt(document.getElementById('pokemon-hp').value, 10);
-    const attack = parseInt(document.getElementById('pokemon-attack').value, 10);
+        // Fonction pour gérer les actions de combat
+        function performAction(action) {
+            console.log("Action: " + action);
+            // Ajouter ici les appels AJAX ou la logique pour gérer les actions de combat
+        }
 
-    playerPokemon = new Pokemon(name, hp, attack);
-    console.log('Nouveau Pokemon créé:', playerPokemon);
-}); */
+        // Fonction pour changer de Pokémon
+        function switchPokemon() {
+            console.log("Changement de Pokémon");
+            // Ajouter ici la logique pour changer de Pokémon
+        }
 
-function battleRound(playerMove) {
-    if (!playerPokemon || !enemyPokemon) {
-        console.log('Les deux Pokémon doivent être définis');
-        return;
-    }
-
-    const enemyMove = Math.random() > 0.5 ? 'attack' : 'defend';
-    console.log(`Le joueur utilise ${playerMove}`);
-    console.log(`L'ennemie utilise ${enemyMove}`);
-
-    if (playerMove === 'attack' && enemyMove !== 'defend') {
-        enemyPokemon.takeDamage(playerPokemon.attack);
-    } else if (enemyMove === 'attack' && playerMove !== 'defend') {
-        playerPokemon.takeDamage(enemyPokemon.attack);
-    }
-
-    console.log(`Joueur HP: ${playerPokemon.hp}`);
-    console.log(`Ennemie HP: ${enemyPokemon.hp}`);
-
-    updateStats();
-
-    if (!playerPokemon.isAlive()) {
-        document.body.innerHTML = '<h1>Le joueur a été vaincu !</h1>';
-    } else if (!enemyPokemon.isAlive()) {
-        document.body.innerHTML = '<h1>L\'ennemie a été vaincu !</h1>';
-    }
-}
+        // Fonction pour fuir le combat
+        function runAway() {
+            console.log("Fuite");
+            // Ajouter ici la logique pour fuir le combat
+        }

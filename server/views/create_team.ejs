@@ -7,30 +7,129 @@
     <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
-    <h1>Créer ton équipe</h1>
-    <form id="team-form">
-        <label for="pokemon-name">Nom du Pokemon:</label>
-        <input type="text" id="pokemon-name" name="pokemon-name">
-        <label for="pokemon-hp">HP:</label>
-        <input type="number" id="pokemon-hp" name="pokemon-hp">
-        <label for="pokemon-attack">Attaque:</label>
-        <input type="number" id="pokemon-attack" name="pokemon-attack">
-        <button type="submit">Créer ton Pokemon</button>
-    </form>
+    <header>
+        <button class="return-btn" onclick="window.location.href='/';">Accueil</button>
+        <h1>Créer ton équipe</h1>
+    </header>
+    <div class="container">
+        <!-- Section des Pokémon -->
+        <div class="pokemon-section">
+            <div class="pokemon-list">
+                <% pokemons.forEach(pokemon => { %>
+                    <div class="pokemon-card">
+                        <h2><%= pokemon.Name %></h2>
+                        <p><strong>Type:</strong> <%= pokemon.Type %></p>
+                        <div class="stats-row">
+                            <p><strong>HP:</strong> <%= pokemon.HP %></p>
+                            <p><strong>Vitesse:</strong> <%= pokemon.Vitesse %></p>
+                        </div>
+                        <div class="stats-row">
+                            <p><strong>ATK:</strong> <%= pokemon.ATK %></p>
+                            <p><strong>ATK Spé:</strong> <%= pokemon.ATK_spe %></p>
+                        </div>
+                        <div class="stats-row">
+                            <p><strong>Defense:</strong> <%= pokemon.Defense %></p>
+                            <p><strong>Defense Spé:</strong> <%= pokemon.Defense_spe %></p>
+                        </div>
 
-    <div id="pokemon-container">
-        <% pokemons.forEach(pokemon => { %>
-            <div class="pokemon">
-                <h3><%= pokemon.Name %></h3>
-                <p><strong>ATK:</strong> <%= pokemon.ATK %></p>
-                <p><strong>PV:</strong> <%= pokemon.PV %></p>
-                <p><strong>Created:</strong> <%= new Date(pokemon.created).toLocaleString() %></p>
-                <p><strong>Updated:</strong> <%= new Date(pokemon.updated).toLocaleString() %></p>
+                        <div class="button-container">
+                            <button class="add-to-team-btn" onclick="addToTeam('<%= pokemon.Name %>', '<%= pokemon.Type %>', '<%= pokemon.HP %>', '<%= pokemon.ATK %>', '<%= pokemon.Defense %>', '<%= pokemon.ATK_spe %>', '<%= pokemon.Defense_spe %>', '<%= pokemon.Vitesse %>')">Ajouter à l'équipe</button>
+                        </div>
+                    </div>
+                <% }) %>
             </div>
-        <% }) %>
+        </div>
+        
+        <!-- Section Résumé de l'équipe -->
+        <div class="team-summary">
+            <h2>Résumé de l'équipe</h2>
+            <ul class="team-list" id="team-list">
+                <!-- Les Pokémon ajoutés à l'équipe apparaîtront ici -->
+            </ul>
+            <button onclick="showPopup()" class="validate-btn">Valider l'équipe</button>
+        </div>
     </div>
 
-    <a href="combat.html" id="start-battle" style="display:none">Commencer le combat</a>
-        
+    <!-- Popup pour valider l'équipe -->
+    <div id="popup" class="popup" style="display: none;">
+        <div class="popup-content">
+            <h3>Résumé de votre équipe</h3>
+            <ul id="team-summary-list">
+                <!-- Les Pokémon de l'équipe seront affichés ici -->
+            </ul>
+            <div class="popup-buttons">
+                <button id="combatBtn" class="button">Lancer le combat</button>
+                <button id="continueBtn" class="secondary-btn">Retour</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let team = [];
+
+        function addToTeam(name, type, hp, atk, defense, atk_spe, defense_spe, vitesse) {
+            if (team.length < 3) {
+                team.push({ name, type, hp, atk, defense, atk_spe, defense_spe, vitesse });
+                updateTeamList();
+            } else {
+                alert("Vous ne pouvez avoir que 3 Pokémon dans une équipe.");
+            }
+        }
+
+        function removeFromTeam(index) {
+            team.splice(index, 1);
+            updateTeamList();
+        }
+
+        function updateTeamList() {
+            const teamList = document.getElementById('team-list');
+            teamList.innerHTML = '';
+
+            team.forEach((pokemon, index) => {
+                const li = document.createElement('li');
+                li.innerHTML = `
+                    ${pokemon.name} 
+                    <button class="remove-btn" onclick="removeFromTeam(${index})">Retirer</button>
+                `;
+                teamList.appendChild(li);
+            });
+        }
+
+        function showPopup() {
+            if (team.length === 3) {
+                const teamSummaryList = document.getElementById('team-summary-list');
+                teamSummaryList.innerHTML = '';
+
+                team.forEach(pokemon => {
+                    const li = document.createElement('li');
+                    li.textContent = pokemon.name;
+                    teamSummaryList.appendChild(li);
+                });
+
+                document.getElementById('popup').style.display = 'flex';
+                console.log('Équipe actuelle:', team); // Afficher l'équipe dans la console du navigateur
+            } else {
+                alert("Votre équipe doit contenir exactement 3 Pokémon.");
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const combatBtn = document.getElementById('combatBtn');
+            const continueBtn = document.getElementById('continueBtn');
+            
+            combatBtn.addEventListener('click', function() {
+                // Afficher l'équipe dans la console pour vérifier
+                console.log("Equipe sélectionnée:", team);
+
+                // Rediriger vers la page de combat avec l'équipe
+                window.location.href = `/combat?team=${encodeURIComponent(JSON.stringify(team))}`;
+            });
+
+            continueBtn.addEventListener('click', function() {
+                document.getElementById('popup').style.display = 'none';
+            });
+        });
+    </script>
+    
 </body>
 </html>

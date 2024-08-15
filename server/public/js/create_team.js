@@ -19,14 +19,13 @@ async function fetchPokemon() {
             const pokemonElement = document.createElement('div');
             pokemonElement.classList.add('pokemon');
 
+            // Affichage du Pokémon avec ses compétences
             pokemonElement.innerHTML = `
                 <h3>${pokemon.Name}</h3>
                 <p><strong>ATK:</strong> ${pokemon.ATK}</p>
-                <p><strong>PV:</strong> ${pokemon.PV}</p>
+                <p><strong>HP:</strong> ${pokemon.HP}</p>
                 <p><strong>Collection ID:</strong> ${pokemon.collectionId}</p>
                 <p><strong>Collection Name:</strong> ${pokemon.collectionName}</p>
-                <p><strong>Created:</strong> ${new Date(pokemon.created).toLocaleString()}</p>
-                <p><strong>Updated:</strong> ${new Date(pokemon.updated).toLocaleString()}</p>
             `;
 
             pokemonContainer.appendChild(pokemonElement);

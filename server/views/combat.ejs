@@ -4,41 +4,60 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Combat</title>
-    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
-    <h1>Zone de combat</h1>
-    <div id="timer">Temps: 0s</div>
-    <div id="turn-indicator">Tour: Joueur</div>
+    <div class="battle-container">
+        <!-- Enemy Pokemon Card -->
+        <div class="enemy-pokemon">
+            <h2><%= enemyPokemon.name %></h2>
+            <div class="hp-bar">
+                <div id="enemy-hp-fill" class="hp-fill"></div>
+            </div>
+            <p>PV: <%= enemyPokemon.currentHP %> / <%= enemyPokemon.totalHP %></p>
+        </div>
     
-    <!-- Section de combat -->
-    <div id="combat-zone">
-        <div>
-            <h2>Votre Pokémon</h2>
-            <div id="player-pokemon-stats"></div>
+        <!-- Player Pokemon Card -->
+        <div class="player-pokemon">
+            <h2><%= playerPokemon.name %></h2>
+            <div class="hp-bar">
+                <div id="player-hp-fill" class="hp-fill"></div>
+            </div>
+            <p>PV: <%= playerPokemon.currentHP %> / <%= playerPokemon.totalHP %></p>
         </div>
-        <div>
-            <h2>Pokémon Adverse</h2>
-            <div id="enemy-pokemon-stats"></div>
+    </div>
+
+    <!-- Interaction Menu -->
+    <div class="interaction-menu">
+        <div class="action-message">
+            <p>Que doit faire <%= playerPokemon.name %> ?</p>
         </div>
+        <div class="action-buttons">
+            <% if (playerPokemon.competences && playerPokemon.competences.length > 0) { %>
+                <button id="attack1"><%= playerPokemon.competences[0].Name %></button>
+            <% } else { %>
+                <button id="attack1" disabled>Aucune compétence</button>
+            <% } %>
+
+            <% if (playerPokemon.competences && playerPokemon.competences.length > 1) { %>
+                <button id="attack2"><%= playerPokemon.competences[1].Name %></button>
+            <% } else { %>
+                <button id="attack2" disabled>Aucune compétence</button>
+            <% } %>
+
+            <button id="changePokemon">Pokemon</button>
+            <button id="runAway">Fuite</button>
+        </div>
+
+              
         
-        <h2>Choisissez votre action</h2>
-        <button id="attack-button" onclick="chooseAction('attack')">Attaque</button>
-        <button id="defend-button" onclick="chooseAction('defend')">Défense</button>
     </div>
 
-    <!-- Bouton pour ouvrir le menu en haut à droite -->
-    <button id="open-menu-btn">&#9776;</button>
+    <!-- Inclusion de game.js -->
+    <script src="/js/game.js"></script>
+    <script>
+        console.log('Équipe actuelle:', team); // Afficher l'équipe dans la console du navigateur
+    </script>
 
-    <!-- Menu latéral droit -->
-    <div id="side-menu" class="side-menu">
-        <a href="javascript:void(0)" class="closebtn" id="close-menu-btn">&times;</a>
-        <button onclick="goToHome()">Accueil</button>
-        <button onclick="pauseGame()">Pause</button>
-        <button onclick="restartGame()">Recommencer</button>
-    </div>
-
-    <script type="module" src="js/game.js"></script>
-    <script type="module" src="js/menu.js"></script>
 </body>
 </html>
