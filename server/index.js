@@ -42,7 +42,7 @@ app.get('/api/pokemon', async (req, res) => {
     try {
         const records = await pb.collection('pokemon').getFullList({
             expand: 'Competences',
-            fields: 'Name,Type,HP,ATK,Defense,ATK_spe,Defense_spe,Vitesse,Competences.Name,Competences'
+            fields: 'Name,Type,HP,ATK,Defense,ATK_spe,Defense_spe,Vitesse,Competences'
         });
 
         res.json(records);
@@ -213,7 +213,7 @@ app.get('/create_team', async (req, res) => {
     try {
         const response = await fetch('http://localhost:3000/api/pokemon/all');
         const pokemons = await response.json();
-
+        console.log(pokemons[0])
         // Récupérer l'équipe actuelle de la session, ou initialiser une nouvelle équipe vide
         let team = req.session.team || [];
 
@@ -240,50 +240,54 @@ app.post('/validate_team', (req, res) => {
 // Route pour afficher la page de combat
 app.get('/combat', async (req, res) => {
     try {
-        const team = JSON.parse(req.query.team);
+        // Décoder l'équipe passée en paramètre
+        const team = JSON.parse(decodeURIComponent(req.query.team));
+        console.log("Équipe décodée:", team);
 
-        if (team.length !== 3) {
+        if (!team || team.length !== 3) {
             return res.status(400).send('Votre équipe doit contenir 3 Pokémon.');
         }
 
-        // Sélectionner un Pokémon aléatoire de l'équipe du joueur (pour simplifier, on prend le premier Pokémon pour commencer)
-        const playerPokemon = team[0];
+        // Appel à l'API pour obtenir tous les Pokémon
+        const response = await fetch('http://localhost:3000/api/pokemon/all');
+        const allPokemons = await response.json();
+        console.log("Pokémon ennemi potentiel:", allPokemons);
 
-        // Récupérer les détails des compétences du joueur
-        let playerCompetences = [];
-        if (playerPokemon.competences && playerPokemon.competences.length > 0) {
-            for (const competenceId of playerPokemon.competences) {
-                const competence = await pb.collection('competences').getOne(competenceId, {
-                    fields: 'Name,Type,Puissance,Precision'
-                });
-                playerCompetences.push(competence);
-            }
+        // Sélectionner un Pokémon aléatoire de l'équipe de l'ennemi
+        const randomIndex = Math.floor(Math.random() * allPokemons.length);
+        const enemyPokemon = allPokemons[randomIndex];
+        console.log("Pokémon ennemi sélectionné:", enemyPokemon);
+
+        // Récupérer le premier Pokémon de l'équipe du joueur
+        const playerPokemonName = team[0].name;
+        const playerPokemon = team[0];
+        console.log("Pokémon joueur sélectionné:", playerPokemon);
+
+        // Récupérer le Pokémon du joueur depuis la base de données
+        const playerPokemonFromDB = allPokemons.find(p => p.Name === playerPokemonName);
+
+        if (playerPokemonFromDB) {
+            playerPokemon.competences = playerPokemonFromDB.CompetenceDetails || [];
+        } else {
+            playerPokemon.competences = [];
         }
 
-        // Sélectionner un Pokémon ennemi aléatoire depuis la base de données
-        const enemyPokemons = await pb.collection('pokemon').getFullList({
-            expand: 'Competences',
-            fields: 'Name,Type,HP,Competences'
-        });
+        console.log("Pokémon joueur sélectionné avec compétences:", playerPokemon);
 
-        const randomIndex = Math.floor(Math.random() * enemyPokemons.length);
-        const enemyPokemon = enemyPokemons[randomIndex];
-
-        // Ajoutez ces logs pour déboguer
-        console.log("Player Pokemon:", playerPokemon);
-        console.log("Enemy Pokemon:", enemyPokemon);
-
+        // Rendu de la vue "combat"
         res.render('combat', {
+            team: team,
             enemyPokemon: {
                 name: enemyPokemon.Name,
                 currentHP: enemyPokemon.HP,
                 totalHP: enemyPokemon.HP,
+                competences: enemyPokemon.CompetenceDetails || []
             },
             playerPokemon: {
                 name: playerPokemon.name,
                 currentHP: playerPokemon.hp,
                 totalHP: playerPokemon.hp,
-                competences: playerCompetences // Inclure les compétences ici
+                competences: playerPokemon.competences
             }
         });
     } catch (error) {

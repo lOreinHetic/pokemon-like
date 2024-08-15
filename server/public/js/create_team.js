@@ -1,39 +1,64 @@
-async function fetchPokemon() {
-    try {
-        // Appel à l'API
-        const response = await fetch('http://localhost:3000/api/pokemon');
-        
-        // Vérification si la réponse est correcte
-        if (!response.ok) {
-            throw new Error('Erreur lors de la récupération des données');
-        }
+let team = [];
 
-        // Parsing de la réponse en JSON
-        const pokemons = await response.json();
-
-        // Sélection de l'élément HTML où les données seront affichées
-        const pokemonContainer = document.getElementById('pokemon-container');
-
-        // Boucle sur chaque Pokémon et création d'éléments HTML pour l'affichage
-        pokemons.forEach(pokemon => {
-            const pokemonElement = document.createElement('div');
-            pokemonElement.classList.add('pokemon');
-
-            // Affichage du Pokémon avec ses compétences
-            pokemonElement.innerHTML = `
-                <h3>${pokemon.Name}</h3>
-                <p><strong>ATK:</strong> ${pokemon.ATK}</p>
-                <p><strong>HP:</strong> ${pokemon.HP}</p>
-                <p><strong>Collection ID:</strong> ${pokemon.collectionId}</p>
-                <p><strong>Collection Name:</strong> ${pokemon.collectionName}</p>
-            `;
-
-            pokemonContainer.appendChild(pokemonElement);
-        });
-    } catch (error) {
-        console.error('Erreur:', error);
+function addToTeam(name, type, hp, atk, defense, atk_spe, defense_spe, vitesse) {
+    if (team.length < 3) {
+        team.push({ name, type, hp, atk, defense, atk_spe, defense_spe, vitesse });
+        updateTeamList();
+    } else {
+        alert("Vous ne pouvez avoir que 3 Pokémon dans une équipe.");
     }
 }
 
-// Appel de la fonction pour récupérer et afficher les données lorsque la page est chargée
-document.addEventListener('DOMContentLoaded', fetchPokemon);
+function removeFromTeam(index) {
+    team.splice(index, 1);
+    updateTeamList();
+}
+
+function updateTeamList() {
+    const teamList = document.getElementById('team-list');
+    teamList.innerHTML = '';
+
+    team.forEach((pokemon, index) => {
+        const li = document.createElement('li');
+        li.innerHTML = `
+            ${pokemon.name} 
+            <button class="remove-btn" onclick="removeFromTeam(${index})">Retirer</button>
+        `;
+        teamList.appendChild(li);
+    });
+}
+
+function showPopup() {
+    if (team.length === 3) {
+        const teamSummaryList = document.getElementById('team-summary-list');
+        teamSummaryList.innerHTML = '';
+
+        team.forEach(pokemon => {
+            const li = document.createElement('li');
+            li.textContent = pokemon.name;
+            teamSummaryList.appendChild(li);
+        });
+
+        document.getElementById('popup').style.display = 'flex';
+        console.log('Équipe actuelle:', team); // Afficher l'équipe dans la console du navigateur
+    } else {
+        alert("Votre équipe doit contenir exactement 3 Pokémon.");
+    }
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    const combatBtn = document.getElementById('combatBtn');
+    const continueBtn = document.getElementById('continueBtn');
+    
+    combatBtn.addEventListener('click', function() {
+        // Afficher l'équipe dans la console pour vérifier
+        console.log("Equipe sélectionnée:", team);
+
+        // Rediriger vers la page de combat avec l'équipe
+        window.location.href = `/combat?team=${encodeURIComponent(JSON.stringify(team))}`;
+    });
+
+    continueBtn.addEventListener('click', function() {
+        document.getElementById('popup').style.display = 'none';
+    });
+});

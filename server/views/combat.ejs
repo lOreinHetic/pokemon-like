@@ -5,59 +5,77 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Combat</title>
     <link rel="stylesheet" href="/css/styles.css">
+    <script defer src="/js/game.js"></script>
 </head>
 <body>
-    <div class="battle-container">
-        <!-- Enemy Pokemon Card -->
-        <div class="enemy-pokemon">
-            <h2><%= enemyPokemon.name %></h2>
-            <div class="hp-bar">
-                <div id="enemy-hp-fill" class="hp-fill"></div>
-            </div>
-            <p>PV: <%= enemyPokemon.currentHP %> / <%= enemyPokemon.totalHP %></p>
+<div class="battle-container">
+    <!-- Enemy Pokemon Card -->
+    <div class="enemy-pokemon">
+        <h2 id="enemyPokemonName"><%= enemyPokemon.name %></h2>
+        <div class="hp-bar">
+            <div id="enemyHPBar" class="hp-fill" style="width: 100%;"></div>
         </div>
-    
-        <!-- Player Pokemon Card -->
-        <div class="player-pokemon">
-            <h2><%= playerPokemon.name %></h2>
-            <div class="hp-bar">
-                <div id="player-hp-fill" class="hp-fill"></div>
-            </div>
-            <p>PV: <%= playerPokemon.currentHP %> / <%= playerPokemon.totalHP %></p>
-        </div>
+        <p>PV: <span id="enemyPokemonHP"><%= enemyPokemon.currentHP %></span> / <span id="enemyPokemonTotalHP"><%= enemyPokemon.totalHP %></span></p>
     </div>
 
-    <!-- Interaction Menu -->
-    <div class="interaction-menu">
-        <div class="action-message">
-            <p>Que doit faire <%= playerPokemon.name %> ?</p>
+    <!-- Player Pokemon Card -->
+    <div class="player-pokemon">
+        <h2 id="playerPokemonName"><%= team[0].name %></h2>
+        <div class="hp-bar">
+            <div id="playerHPBar" class="hp-fill" style="width: 100%;"></div>
         </div>
-        <div class="action-buttons">
-            <% if (playerPokemon.competences && playerPokemon.competences.length > 0) { %>
-                <button id="attack1"><%= playerPokemon.competences[0].Name %></button>
-            <% } else { %>
-                <button id="attack1" disabled>Aucune compétence</button>
-            <% } %>
-
-            <% if (playerPokemon.competences && playerPokemon.competences.length > 1) { %>
-                <button id="attack2"><%= playerPokemon.competences[1].Name %></button>
-            <% } else { %>
-                <button id="attack2" disabled>Aucune compétence</button>
-            <% } %>
-
-            <button id="changePokemon">Pokemon</button>
-            <button id="runAway">Fuite</button>
-        </div>
-
-              
-        
+        <p>PV: <span id="playerPokemonHP"><%= team[0].hp %></span> / <span id="playerPokemonTotalHP"><%= team[0].hp %></span></p>
+    </div>
+    <div id="playerPokemon"
+         data-name="<%= playerPokemon.name %>"
+         data-current-hp="<%= playerPokemon.currentHP %>"
+         data-total-hp="<%= playerPokemon.totalHP %>"
+         data-competences='<%= JSON.stringify(playerPokemon.competences) %>'>
     </div>
 
-    <!-- Inclusion de game.js -->
-    <script src="/js/game.js"></script>
-    <script>
-        console.log('Équipe actuelle:', team); // Afficher l'équipe dans la console du navigateur
-    </script>
+    <!-- Ajouter un élément caché pour stocker les données de l'équipe -->
+    <div id="team" data-team='<%= JSON.stringify(team) %>' style="display: none;"></div>
+</div>
 
+<!-- Interaction Menu -->
+<div class="interaction-menu">
+    <div class="action-message">
+        <p>Que doit faire <%= team[0].name %> ?</p>
+    </div>
+    <div class="action-buttons">
+        <button id="attack1"><%= playerPokemon.competences[0] ? playerPokemon.competences[0].Name : 'Aucune compétence' %></button>
+        <button id="attack2"><%= playerPokemon.competences[1] ? playerPokemon.competences[1].Name : 'Aucune compétence' %></button>
+        <button id="changePokemon">Pokemon</button>
+        <button id="runAway">Fuite</button>
+    </div>
+</div>
+<!-- Popup de confirmation de fuite -->
+<div id="runAwayPopup" class="popup" style="display: none;">
+    <div class="popup-content">
+        <h3>Veux-tu vraiment quitter le combat ?</h3>
+        <button id="confirmRunAway" class="button">Oui</button> <!-- Bouton Oui -->
+        <button id="cancelRunAway" class="secondary-btn">Non</button> <!-- Bouton Non -->
+    </div>
+</div>
+<!-- Popup de sélection de Pokémon -->
+<div id="pokemonPopup" class="popup" style="display: none;">
+    <div class="popup-content">
+        <h3>Choisissez votre Pokémon</h3>
+        <ul id="pokemonList">
+            <% team.forEach(pokemon => { %>
+                <li>
+                    <strong><%= pokemon.name %></strong>
+                    (Type: <%= pokemon.type %>, PV: <%= pokemon.hp %>/<%= pokemon.hp %>)
+                    <% if (pokemon.name === playerPokemon.name) { %>
+                        <button class="disabled" disabled>En cours de combat</button>
+                    <% } else { %>
+                        <button class="selectPokemonButton" data-pokemon="<%= pokemon.name %>">Sélectionner</button>
+                    <% } %>
+                </li>
+            <% }) %>
+        </ul>
+        <button id="closePokemonPopup" class="secondary-btn">Fermer</button> <!-- Bouton Fermer -->
+    </div>
+</div>
 </body>
-</html>
+</html> 
